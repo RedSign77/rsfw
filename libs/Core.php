@@ -11,11 +11,9 @@ class Core extends Singleton
     private static $dateYesterday = "Tegnap";
 
     public static $theme = "Default";
-    public static $base = "http://framework.dev";
+    public static $base = "http://www.rsfw.dev";
 
-    public static $viewDirectory = "view";
-    public static $controllerDirectory = "controller";
-    public static $modelDirectory = "model";
+    public static $viewDirectory = "theme";
 
     protected function __construct($mode)
     {
@@ -31,26 +29,6 @@ class Core extends Singleton
     public static function themeUrl()
     {
         return self::$viewDirectory . "/" . self::$theme . "/";
-    }
-
-    /**
-     * Return base model URL
-     *
-     * @return string
-     */
-    public static function modelUrl()
-    {
-        return self::$modelDirectory . "/";
-    }
-
-    /**
-     * Return base controller URL
-     *
-     * @return string
-     */
-    public static function controllerUrl()
-    {
-        return sself::$controllerDirectory . "/";
     }
 
     /**
