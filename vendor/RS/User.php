@@ -1,21 +1,52 @@
 <?php
-class RS_User extends Singleton{
+/**
+ * Class RS_User
+ */
+class RS_User extends Singleton
+{
 
-  private static $session = "user";
-  private $data = null;
+	private static $session = "user";
+	public static $table = TBL_USERS;
+	private $data = null;
 
-  public function __construct()
-  {
-    if (isset($_SESSION[self::$session])) {
-      $this->data = $_SESSION[self::$session];
-    }
-  }
+	public function __construct() {
+		if (isset($_SESSION[self::$session])) {
+			$this->data = $_SESSION[self::$session];
+		} else {
+			$_SESSION[self::$session] = null;
+		}
+	}
 
-  public function login($mail, $password) {
-    if (filter_var($mail, FILTER_VALIDATE_EMAIL) && trim($password)) {
+	private function setData($data) {
+		$this->data = $data;
+		$_SESSION[self::$session] = $data;
+	}
 
-    }
-    return false;
-  }
+	public function login($mail, $password) {
+		if (!is_null($this->data)) {
+			return true;
+		}
+		if (filter_var($mail, FILTER_VALIDATE_EMAIL) && trim($password)) {
+			$db = Database::getInstance();
+			$data = $db->getOneRow(self::$table, "email='".$mail."' AND password='".md5($password)."'");
+			if ($data) {
+				$this->setData($data);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function logout() {
+
+	}
+
+	public static function isLogged()
+	{
+		if (!is_null($_SESSION[self::$session])) {
+			return true;
+		}
+		return false;
+	}
 
 }

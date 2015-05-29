@@ -10,7 +10,7 @@ class Database extends Singleton
     private $database = "rsfw";
     private $user = "root";
     private $password = "";
-    private $connection;
+    private $connection = null;
     private $query = "";
 
     protected function __construct()
