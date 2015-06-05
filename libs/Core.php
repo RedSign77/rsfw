@@ -324,6 +324,7 @@ class Core extends
    * @param      $type
    * @param null $file
    * @param null $line
+   * @param bool $log
    *
    * @return string
    */
