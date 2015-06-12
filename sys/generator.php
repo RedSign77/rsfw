@@ -63,8 +63,3 @@ if (isset($_SESSION['page']['process'])) {
         }
     }
 }
-/*
-include_once 'pages/header.php';
-include_once 'pages/' . $_SESSION['page']['file'];
-include_once 'pages/footer.php';
-*/
