@@ -7,15 +7,7 @@ $_SESSION['REQUEST'] = isset($_GET['req']) ? $_GET['req'] : null;
 /**
  *  Create default objects
  */
-if (!isset($user) || !is_object($user)) {
-    $user = new User();
-}
-if (!isset($db) || !is_object($db))
-    $db = IDatabase::getSingleton();
-
-if (!isset($pager) || !is_object($pager))
-    $pager = new Pager();
-
+$cache = Cache::getInstance();
 
 // READ CONFIG
 $cfg = $db->getOneRow(TBL_CONFIG, "id=".VERSION);
