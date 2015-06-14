@@ -1,5 +1,8 @@
 <?php
-class Cache extends Singleton
+/**
+ * Class Cache
+ */
+class Cache extends Singleton implements ICache
 {
 
 	private $cacheType = "Session"; // Modify and generate init{$cacheType} function
