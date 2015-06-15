@@ -9,6 +9,7 @@ class Cache extends
 
     private $cacheType  = "Session"; // Modify and generate init{$cacheType} function
     private $defaultTTL = 1200; // In seconds
+	private $throwException = false;
 
     /**
      * Construct
@@ -30,12 +31,13 @@ class Cache extends
      * Add data to the cache
      *
      * @param      $data
-     * @param null $key
-     * @param null $ttl
+     * @param string $key
+	 * @param bool $update
+     * @param int $ttl
      */
-    public function add($data, $key = NULL, $ttl = NULL) {
+    public function add($data, $key = null, $update = true, $ttl = null) {
         if (method_exists($this, "add" . $this->cacheType)) {
-            return $this->{"add" . $this->cacheType}($data, $key, $ttl);
+			return $this->{"add" . $this->cacheType}($data, $key, $update, $ttl);
         }
     }
 
@@ -68,11 +70,15 @@ class Cache extends
      * @param $key
      *
      * @return bool
+	 * @throws Exception
      */
     private function getSession($key) {
         if (isset($_SESSION[RS_CACHE_KEY][$key])) {
             return $_SESSION[RS_CACHE_KEY][$key];
         }
+		if ($this->throwException) {
+			throw new Exception("No (".$key.") cache key found in the cache.");
+		}
         return FALSE;
     }
 
@@ -81,10 +87,27 @@ class Cache extends
      *
      * @param $data
      * @param $key
+	 * @param $update
      * @param $ttl
+	 *
+	 * @throws Exception
+	 *
+	 * @return bool
      */
-    private function addSession($data, $key, $ttl) {
-
+    private function addSession($data, $key, $update = true, $ttl) {
+		if (isset($_SESSION[RS_CACHE_KEY][$key])) {
+			if (!$update) {
+				if ($this->throwException) {
+					throw new Exception("The (".$key.") key in the cache, but overwrite ignored.");
+				}
+				return false;
+			}
+		}
+		$_SESSION[RS_CACHE_KEY][$key] = array(
+			'ttl' => is_null($ttl) ? time() + $this->defaultTTL : $ttl,
+			'data' => $data,
+		);
+		return true;
     }
 
 }
