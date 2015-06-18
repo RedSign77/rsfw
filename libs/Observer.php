@@ -13,7 +13,7 @@ class Observer extends Singleton
 	}
 
 	private function validEvent($key) {
-		return in_array($key, $this->events);
+		return !in_array($key, $this->events);
 	}
 
 	private function generateKey(Event $event) {
@@ -21,7 +21,11 @@ class Observer extends Singleton
 	}
 
 	public function sense(Event $event) {
-		$this->events[$this->generateKey($event)] = $event;
+		if ($this->validEvent($event->getKey())) {
+			$this->events[$this->generateKey($event)] = $event;
+			return true;
+		}
+		return false;
 	}
 
 }
