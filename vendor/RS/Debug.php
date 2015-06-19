@@ -10,10 +10,11 @@ class RS_Debug extends Singleton
 
 	}
 
-	public function __toStirng()
+	public function __toString()
 	{
 		$ret = "";
 		$cache = SessionCache::getInstance();
+		$ret .= $cache;
 		return $ret;
 	}
 }

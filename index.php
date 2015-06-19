@@ -3,7 +3,8 @@
  * RS Framework index
  * Set error reporting
  */
-ini_set('error_reporting', E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+//ini_set('error_reporting', E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+ini_set('error_reporting', E_ALL);
 ini_set('error_log', 'files/log/error_log_' . date("Ym", time()) . '.log');
 // Default settings
 ob_start();

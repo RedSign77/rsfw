@@ -20,7 +20,7 @@ abstract class Cache extends
     /**
      * Default initialize cache
      */
-    private function initialize() {
+    public function initialize() {
         if (method_exists($this, "init" . $this->cacheType)) {
             $this->{"init" . $this->cacheType}();
         }
