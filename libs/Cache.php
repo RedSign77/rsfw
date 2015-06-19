@@ -3,13 +3,12 @@
 /**
  * Class Cache
  */
-class Cache extends
+abstract class Cache extends
     Singleton implements
     ICache {
 
-    private $cacheType  = "Session"; // Modify and generate init{$cacheType} function
-    private $defaultTTL = 1200; // In seconds
-	private $throwException = false;
+	protected $throwException = false;
+	protected $cacheType  = "NotDefined"; // Modify and generate init{$cacheType} function
 
     /**
      * Construct
@@ -52,62 +51,30 @@ class Cache extends
         }
     }
 
+
     /**
-     * Initialize Session caching or invalidate cache
+     * Normal destruct
      */
-    private function initSession() {
-        if (!isset($_SESSION[RS_CACHE_KEY]) || $_SESSION[RS_CACHE_KEY]['init'] < time()) {
-            $_SESSION[RS_CACHE_KEY] = array(
-                'init' => time() + $this->defaultTTL,
-                'data' => NULL,
-            );
+    public function __destruct()
+    {
+        if (method_exists($this, "destruct" . $this->cacheType)) {
+            return $this->{"destruct" . $this->cacheType}($key);
         }
     }
 
-    /**
-     * Get session cache data
-     *
-     * @param $key
-     *
-     * @return bool
-	 * @throws Exception
-     */
-    private function getSession($key) {
-        if (isset($_SESSION[RS_CACHE_KEY][$key])) {
-            return $_SESSION[RS_CACHE_KEY][$key];
-        }
-		if ($this->throwException) {
-			throw new Exception("No (".$key.") cache key found in the cache.");
-		}
-        return FALSE;
-    }
-
-    /**
-     * Set session cache data
-     *
-     * @param $data
-     * @param $key
-	 * @param $update
-     * @param $ttl
+	/**
+	 * For debugging
 	 *
-	 * @throws Exception
-	 *
-	 * @return bool
-     */
-    private function addSession($data, $key, $update = true, $ttl) {
-		if (isset($_SESSION[RS_CACHE_KEY][$key])) {
-			if (!$update) {
-				if ($this->throwException) {
-					throw new Exception("The (".$key.") key in the cache, but overwrite ignored.");
-				}
-				return false;
-			}
-		}
-		$_SESSION[RS_CACHE_KEY][$key] = array(
-			'ttl' => is_null($ttl) ? time() + $this->defaultTTL : $ttl,
-			'data' => $data,
-		);
-		return true;
-    }
+	 * @return string
+	 */
+	public function __toString()
+	{
+		$ret = "";
+		$ret .= "<h3>Cache debug</h3>";
+		$ret .= "<p>Cache Type: ".$this->cacheType;
+		$ret .= "<br />Throw Exception: ".($this->throwException ? "Yes" : "No");
+		$ret .= "<br />Cache key: ".RS_CACHE_KEY."</p>";
+		return $ret;
+	}
 
 }

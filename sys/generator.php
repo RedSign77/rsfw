@@ -7,7 +7,7 @@ $_SESSION['REQUEST'] = isset($_GET['req']) ? $_GET['req'] : null;
 /**
  *  Create default objects
  */
-$cache = Cache::getInstance();
+$cache = SessionCache::getInstance();
 
 // READ CONFIG
 $cfg = $db->getOneRow(TBL_CONFIG, "id=".VERSION);

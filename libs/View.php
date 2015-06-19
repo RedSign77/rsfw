@@ -136,4 +136,4 @@ class View extends Singleton
         return $ret;
     }
 
-} 
+}
