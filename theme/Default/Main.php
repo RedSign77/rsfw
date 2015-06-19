@@ -38,13 +38,12 @@ class Default_Main extends View
 
     public function _afterShow()
     {
-        $debug = null;
         if (defined("RS_DEBUG") && RS_DEBUG == 1)
         {
             $_debug = RS_Debug::getInstance();
-            $debug = array('debug_info' => $_debug);
+			$this->addBlock('debug', array('debug-info' => $_debug));
         }
-        $this->addBlock($this->blockFooter, $debug);
+        $this->addBlock($this->blockFooter);
     }
 
 
