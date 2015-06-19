@@ -1,5 +1,4 @@
 <?php
-
 if (!isset($_SESSION['core']) || $_SESSION['core'] != 1)
     die("Core not loaded!");
 $_SESSION['BASE'] = "http://";
@@ -8,16 +7,6 @@ $_SESSION['REQUEST'] = isset($_GET['req']) ? $_GET['req'] : null;
  *  Create default objects
  */
 $cache = SessionCache::getInstance();
-
-// READ CONFIG
-$cfg = $db->getOneRow(TBL_CONFIG, "id=".VERSION);
-
-if(User::isLogged())
-{
-    include 'includes/post.check.php';
-}
-
-include_once 'includes/page-datas.php';
 
 /**
  * Check request and set page

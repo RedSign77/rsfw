@@ -12,8 +12,6 @@ include_once 'sys/constants.php';
 include_once 'sys/core.php';
 spl_autoload_extensions('.php');
 spl_autoload_register('loadClasses');
-// Show page
-$user = new RS_User();
-$template = new Default_Main();
-$template->show();
+// Show page with routing and data
+include_once 'sys/generator.php';
 ob_end_flush();
