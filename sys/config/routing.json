@@ -1,0 +1,14 @@
+{
+  "home": {
+    "template": "Default_Main",
+    "protected": false,
+    "process": [
+      "home.process.php"
+    ]
+  },
+  "login": {
+    "template": "Default_Login",
+    "protected": false,
+    "process": []
+  }
+}

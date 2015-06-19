@@ -9,8 +9,10 @@ define("RS_DEBUG", 1);
 
 /** Core constants */
 define("RS_CACHE_KEY", "_CACHE");
+define("RS_HOME", "home");
 
 /**
- * Constants
+ * Database Constants
  */
 define("TBL_USERS", "users");
+

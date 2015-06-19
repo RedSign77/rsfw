@@ -1,16 +1,14 @@
 <?php
-if (!isset($_SESSION['core']) || $_SESSION['core'] != 1)
+if (!isset($_SESSION['core']) || $_SESSION['core'] != 1) {
     die("Core not loaded!");
-$_SESSION['BASE'] = "http://";
-$_SESSION['REQUEST'] = isset($_GET['req']) ? $_GET['req'] : null;
-/**
- *  Create default objects
- */
+}
+$request = Request::getInstance();
 $cache = SessionCache::getInstance();
+$router = Router::getInstance();
+$router->process($request);
+echo $request;
+/*
 
-/**
- * Check request and set page
- */
 $_SESSION['page'] = $arrPages['kezdolap'];
 
 if (User::isLogged() && $_SESSION['page']['id'] == "login")
@@ -34,9 +32,7 @@ if (isset($_SESSION['REQUEST'])) {
 }
 if(User::isLogged() && $_SESSION['page']['id']=="logout")
     $user->logout();
-/**
- * Set processes
- */
+
 
 if (is_file("process/p_" . $_SESSION['page']['file']))
     include 'process/p_' . $_SESSION['page']['file'];
@@ -52,3 +48,4 @@ if (isset($_SESSION['page']['process'])) {
         }
     }
 }
+*/

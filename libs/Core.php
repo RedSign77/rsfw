@@ -31,24 +31,6 @@ class Core extends Singleton
 	}
 
 	/**
-	 * Set meta tags
-	 *
-	 * @param $title
-	 * @param $description
-	 */
-	public static function setMeta($title, $description) {
-		if (isset($_SESSION['page']['title'])) {
-			$_SESSION['page']['title'] = $title;
-		}
-		if (isset($_SESSION['page']['desc'])) {
-			$_SESSION['page']['desc'] = $description;
-		}
-		if (isset($_SESSION['page']['keywords'])) {
-			$_SESSION['page']['keywords'] .= getRandomWords($description);
-		}
-	}
-
-	/**
 	 * Highlight menu item
 	 *
 	 * @param string $pageId
@@ -318,41 +300,47 @@ class Core extends Singleton
 	}
 
 	/**
-	 * Debug
+	 * Get log file
 	 *
-	 * @param      $type
-	 * @param null $file
-	 * @param null $line
-	 * @param bool $log
 	 * @return string
 	 */
-	public static function debug(&$type, $file = null, $line = null, $log = true) {
-		$ret = "";
-		$ret .= "<pre>";
-		$ret .= "\nDEBUG - " . date("Y-m-d H:i:s", time());
-		if (!is_null($file) && !is_null($line)) {
-			$ret .= "\nFile: " . $file;
-			$ret .= "\nLine: " . $line;
-		}
-		var_dump($type);
-		$ret .= "</pre>";
-		if ($log) {
-			file_put_contents(self::logFile(), $ret, FILE_APPEND);
-		}
-
-		return $ret;
-	}
-
 	public static function logFile() {
-		return self::$logDirectory . "/core_" . self::formatDate(time(), 2);
+		return self::$logDirectory . "/core_" . self::formatDate(time(), 2) . ".log";
 	}
 
+	/**
+	 * Generate hash string
+	 *
+	 * @param int $limit
+	 * @return string
+	 */
 	public static function generateHash($limit = 32) {
 		$baseText = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		$ret = "";
 		for ($i = 0; $i <= $limit; $i++) {
 			$ret .= substr($baseText, mt_rand(0, strlen($baseText)), 1);
 		}
+
 		return $ret;
 	}
+
+	/**
+	 * Get config file from sys/config
+	 *
+	 * @param      $json
+	 * @param bool $isArray
+	 * @return mixed|string
+	 * @throws Exception
+	 */
+	public static function readConfigJSON($json, $isArray = true) {
+		if (is_file("sys/config/" . $json . ".json")) {
+			$data = file_get_contents("sys/config/" . $json . ".json");
+			if ($isArray) {
+				return json_decode($data, true);
+			}
+			return $data;
+		}
+		throw new Exception("Aborted: Config file not found!");
+	}
+
 }
