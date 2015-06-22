@@ -3,7 +3,7 @@
     "template": "Default_Main",
     "protected": false,
     "require": {
-      "auth": false,
+      "rank": false,
       "login": false
     },
     "process": [
@@ -14,8 +14,17 @@
     "template": "Default_Login",
     "protected": false,
     "require": {
-      "auth": false,
+      "rank": false,
       "login": false
+    },
+    "process": []
+  },
+  "profile": {
+    "template": "Default_Profile",
+    "protected": true,
+    "require": {
+      "rank": false,
+      "login": true
     },
     "process": []
   }

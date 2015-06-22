@@ -82,6 +82,26 @@ class View extends Singleton
 	}
 
 	/**
+	 * Add JS file
+	 *
+	 * @param $jsPath
+	 */
+	public function addJs($jsPath)
+	{
+		$this->javascripts[] = $jsPath;
+	}
+
+	/**
+	 * Add CSS file
+	 *
+	 * @param $cssPath
+	 */
+	public function addCss($cssPath)
+	{
+		$this->css[] = $cssPath;
+	}
+
+	/**
 	 * Returns the main html data
 	 *
 	 * @return string

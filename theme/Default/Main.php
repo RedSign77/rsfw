@@ -9,20 +9,13 @@ class Default_Main extends View
     private $blockHeader = "header";
     private $blockFooter = "footer";
 
+    /**
+     * Construct
+     */
     public function __construct()
     {
         $this->addJs('js/default.js');
         $this->addCss('css/style.css');
-    }
-
-    public function addJs($jsPath)
-    {
-        $this->javascripts[] = $jsPath;
-    }
-
-    public function addCss($cssPath)
-    {
-        $this->css[] = $cssPath;
     }
 
     public function _beforeShow()
