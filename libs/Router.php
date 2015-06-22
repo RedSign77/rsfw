@@ -32,11 +32,43 @@ class Router extends Singleton
 	 */
 	public function process(Request $request) {
 		if (isset($this->router[$request->getController()])) {
+			// Pre-process page
 			$this->page = $this->router[$request->getController()];
-
+			$this->page['params'] = $this->preProcess($request);
+			// Page generator if available
 			return;
 		}
 		$request->reset();
+	}
+
+	/**
+	 * Process URL parameters and GET, POST AND FILES parameters
+	 *
+	 * @param Request $request
+	 * @return array
+	 */
+	private function preProcess(Request $request)
+	{
+		$ret = array(
+			'get' => array(),
+			'post' => array(),
+			'files' => array(),
+			'url' => $request->getUrl(),
+		);
+		if (isset($_GET) && count($_GET) >0) {
+			$_params = $_GET;
+			unset($_params['req']);
+			$ret['get'] = $_params;
+		}
+		if (isset($_POST) && count($_POST) >0) {
+			$_params = $_POST;
+			$ret['post'] = $_params;
+		}
+		if (isset($_FILES) && count($_FILES) >0) {
+			$_params = $_FILES;
+			$ret['files'] = $_params;
+		}
+		return $ret;
 	}
 
 	/**
