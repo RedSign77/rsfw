@@ -2,6 +2,10 @@
   "home": {
     "template": "Default_Main",
     "protected": false,
+    "require": {
+      "auth": false,
+      "login": false
+    },
     "process": [
       "home.process.php"
     ]
@@ -9,6 +13,10 @@
   "login": {
     "template": "Default_Login",
     "protected": false,
+    "require": {
+      "auth": false,
+      "login": false
+    },
     "process": []
   }
 }
