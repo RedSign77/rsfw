@@ -315,7 +315,7 @@ class Core extends Singleton
 	 * @return string
 	 */
 	public static function generateHash($limit = 32) {
-		$baseText = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		$baseText = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-";
 		$ret = "";
 		for ($i = 0; $i <= $limit; $i++) {
 			$ret .= substr($baseText, mt_rand(0, strlen($baseText)), 1);
