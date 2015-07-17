@@ -31,13 +31,30 @@ class Router extends Singleton
 	 * @param Request $request
 	 */
 	public function process(Request $request) {
-		if (isset($this->router[$request->getController()])) {
-			// Pre-process page
-			$this->page = $this->router[$request->getController()];
-			$this->page['params'] = $this->preProcess($request);
-			return;
-		}
-		$request->reset();
+		do {
+			$reset = false;
+			if (isset($this->router[$request->getController()])) {
+				// Pre-process page
+				$this->page = $this->router[$request->getController()];
+				$this->page['params'] = $this->preProcess($request);
+				if ($this->page['protected']) {
+					if ($this->page['protected']['login'] && RS_User::isLogged()) {
+						if ($this->page['protected']['rank'] && RS_User::getRank() >= $this->page['protected']['rank']) {
+							return;
+						} else {
+							$request->reset();
+							$reset = true;
+						}
+					} else {
+						$request->reset();
+						$reset = true;
+					}
+				}
+			} else {
+				$request->reset();
+				$reset = true;
+			}
+		} while ($reset == true);
 	}
 
 	/**

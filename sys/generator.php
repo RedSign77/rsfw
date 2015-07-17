@@ -7,8 +7,9 @@ $cache = SessionCache::getInstance();
 $router = Router::getInstance();
 $router->process($request);
 echo $router;
+echo $request;
 /**
- * Check protection and user actions
+ * RS framework processing functionality
  */
 
 /**
@@ -19,4 +20,5 @@ echo $router;
  * Make view
  */
 $object = $router->getTemplate();
-$view = new $object();
+$view = $object::getInstance();
+$view->show();

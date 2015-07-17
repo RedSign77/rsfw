@@ -45,6 +45,11 @@ class RS_User extends Singleton
 
 	}
 
+	public static function getRank()
+	{
+		return $_SESSION[self::$session]['rank'];
+	}
+
 	public static function isLogged()
 	{
 		if (!is_null($_SESSION[self::$session])) {
