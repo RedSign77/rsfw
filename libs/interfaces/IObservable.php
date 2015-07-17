@@ -6,7 +6,7 @@
 interface IObservable
 {
 
-	public function attach(Observer $observer);
+	public function attach(IObserver $observer);
 
 	public function notifyObservers();
 

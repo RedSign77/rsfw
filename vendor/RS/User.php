@@ -26,6 +26,7 @@ class RS_User extends Singleton
 		if (!is_null($this->data)) {
 			return true;
 		}
+		$this->notifyObservers();
 		if (filter_var($mail, FILTER_VALIDATE_EMAIL) && trim($password)) {
 			$db = Database::getInstance();
 			$data = $db->getOneRow(self::$table, "email='".$mail."' AND password='".md5($password)."'");
@@ -47,6 +48,17 @@ class RS_User extends Singleton
 			return true;
 		}
 		return false;
+	}
+
+	public function __toString()
+	{
+		$ret = "";
+		if (self::isLogged()) {
+
+		} else {
+			$ret .= "User not logged in.";
+		}
+		return $ret;
 	}
 
 }

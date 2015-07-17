@@ -2,7 +2,7 @@
 /**
  * Class Singleton
  */
-abstract class Singleton {
+abstract class Singleton extends Observable {
 
     private static $map = array();
 

@@ -209,7 +209,8 @@ class Core extends Singleton
 	 * @return bool|string
 	 */
 	public static function getTS() {
-		return date("Y-m-d H:i:s", time());
+		$dt = new DateTime('now');
+		return $dt->getTimestamp();
 	}
 
 	/**
@@ -238,7 +239,7 @@ class Core extends Singleton
 	 *
 	 * @param     $date
 	 * @param int $type
-	 * @return bool|string
+	 * @return bool|string|object
 	 */
 	public static function formatDate($date, $type = 0) {
 		$time = strtotime($date);
@@ -248,6 +249,9 @@ class Core extends Singleton
 				break;
 			case 2:
 				return date("Y-m-d", $time);
+				break;
+			case 3:
+				return new DateTime('now');
 				break;
 			default:
 				return date("Y-m-d H:i:s", $time);
@@ -285,17 +289,11 @@ class Core extends Singleton
 	 * @return mixed|string
 	 */
 	public static function rip_tags($string) {
-
-		// ----- remove HTML TAGs -----
 		$string = preg_replace('/<[^>]*>/', ' ', $string);
-
-		// ----- remove control characters -----
-		$string = str_replace("\r", '', $string);    // --- replace with empty space
-		$string = str_replace("\n", ' ', $string);   // --- replace with space
-		$string = str_replace("\t", ' ', $string);   // --- replace with space
-		// ----- remove multiple spaces -----
+		$string = str_replace("\r", '', $string);
+		$string = str_replace("\n", ' ', $string);
+		$string = str_replace("\t", ' ', $string);
 		$string = trim(preg_replace('/ {2,}/', ' ', $string));
-
 		return $string;
 	}
 
@@ -305,7 +303,19 @@ class Core extends Singleton
 	 * @return string
 	 */
 	public static function logFile() {
-		return self::$logDirectory . "/core_" . self::formatDate(time(), 2) . ".log";
+		return self::$logDirectory . "/core_".date("Ymd", time()).".log";
+	}
+
+	/**
+	 * Put message to log
+	 *
+	 * @param $message
+	 * @return int
+	 */
+	public static function log($message) {
+		$dt = self::formatDate(0, 3);
+		$message = $dt->format(DateTime::ATOM)." ".$message.PHP_EOL;
+		return file_put_contents(self::logFile(), (String) $message, FILE_APPEND);
 	}
 
 	/**

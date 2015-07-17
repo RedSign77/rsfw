@@ -6,6 +6,6 @@
 interface IObserver
 {
 
-	public function update();
+	public function update($object);
 
 }

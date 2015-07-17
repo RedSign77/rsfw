@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Interface ICache
+ */
 interface ICache {
 
   function initialize();

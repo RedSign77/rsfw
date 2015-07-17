@@ -25,13 +25,14 @@ class Database extends Singleton
     {
         try {
             @$this->connection = new mysqli($this->host, $this->user, $this->password, $this->database);
-            if ($this->connection->connect_error)
-                throw new Exception("File: " . basename(__FILE__) . ", line: " . __LINE__ . " >> " . $this->connection->connect_error, $this->connection->connect_errno);
+            if ($this->connection->connect_error) {
+                throw new Exception($this->connection->connect_error, $this->connection->connect_errno);
+            }
             if (!$this->connection->set_charset("utf8")) {
-                throw new Exception("File: " . basename(__FILE__) . ", line: " . __LINE__ . " >> " . $this->connection->error, $this->connection->connect_errno);
+                throw new Exception($this->connection->error, $this->connection->connect_errno);
             }
         } catch (Exception $e) {
-            die("Sorry, database error. Try again later.");
+            die("Sorry, database error. [".$e->getMessage()."] Try again later.");
         }
     }
 
@@ -42,7 +43,9 @@ class Database extends Singleton
      */
     public function close()
     {
-        return $this->connection->close();
+        if (!$this->connection->connect_error) {
+            return $this->connection->close();
+        }
     }
 
     /**
