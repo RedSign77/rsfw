@@ -7,18 +7,26 @@ $cache = SessionCache::getInstance();
 $router = Router::getInstance();
 $router->process($request);
 echo $router;
-echo $request;
 /**
  * RS framework processing functionality
  */
-
 /**
- * Run process files
- */
-
-/**
- * Make view
+ * Generate view for data
  */
 $object = $router->getTemplate();
 $view = $object::getInstance();
+/**
+ * Run process files
+ */
+$processes = $router->getProcess();
+if (count($processes) > 0) {
+	foreach ($processes as $process) {
+		if (is_executable('process/' . $process)) {
+			include_once 'process/' . $process;
+		}
+	}
+}
+/**
+ * Make view
+ */
 $view->show();
