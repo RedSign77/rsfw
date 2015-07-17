@@ -16,7 +16,6 @@ class View extends Singleton
 	protected $keywords = "";
 	protected $description = "";
 
-
 	public function __construct() {
 	}
 

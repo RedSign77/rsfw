@@ -20,4 +20,12 @@ abstract class Singleton extends Observable {
         return self::$map[$class];
     }
 
+    public static function getClass($class)
+    {
+        if (!isset(self::$map[$class])) {
+            self::$map[$class] = new $class();
+        }
+        return self::$map[$class];
+    }
+
 }

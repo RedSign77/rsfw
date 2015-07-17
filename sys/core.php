@@ -29,7 +29,6 @@ function loadClasses($className) {
 		if (file_exists($dir . $classPath . DS . $class . ".php")) {
 			set_include_path($dir . $classPath);
 			spl_autoload($class);
-
 			return;
 		}
 	}

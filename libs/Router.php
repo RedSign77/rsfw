@@ -35,7 +35,6 @@ class Router extends Singleton
 			// Pre-process page
 			$this->page = $this->router[$request->getController()];
 			$this->page['params'] = $this->preProcess($request);
-			// Page generator if available
 			return;
 		}
 		$request->reset();
@@ -69,6 +68,14 @@ class Router extends Singleton
 			$ret['files'] = $_params;
 		}
 		return $ret;
+	}
+
+	public function __call($key, $args)
+	{
+		if (substr($key, 0, 3) == "get" && isset($this->page[strtolower(substr($key, 3))])) {
+			return $this->page[strtolower(substr($key, 3))];
+		}
+		return false;
 	}
 
 	/**
