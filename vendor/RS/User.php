@@ -23,18 +23,21 @@ class RS_User extends Singleton
 	}
 
 	public function login($mail, $password) {
+		$this->notifyObservers("loginBefore");
 		if (!is_null($this->data)) {
+			$this->notifyObservers("loginAfter");
 			return true;
 		}
-		$this->notifyObservers();
 		if (filter_var($mail, FILTER_VALIDATE_EMAIL) && trim($password)) {
 			$db = Database::getInstance();
 			$data = $db->getOneRow(self::$table, "email='".$mail."' AND password='".md5($password)."'");
 			if ($data) {
 				$this->setData($data);
+				$this->notifyObservers("loginAfter");
 				return true;
 			}
 		}
+		$this->notifyObservers("loginAfter");
 		return false;
 	}
 
@@ -54,7 +57,7 @@ class RS_User extends Singleton
 	{
 		$ret = "";
 		if (self::isLogged()) {
-
+			$ret .= "User logged in.";
 		} else {
 			$ret .= "User not logged in.";
 		}

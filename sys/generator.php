@@ -7,6 +7,6 @@ $cache = SessionCache::getInstance();
 $router = Router::getInstance();
 $router->process($request);
 echo $router;
-$user = new RS_User();
+$user = RS_User::getInstance();
 $user->attach(new RS_Observer_Log());
-$user->login('signred@gmail.com', 'PhoeniX1');
+$user->login("signred@gmail.com", "teszt");

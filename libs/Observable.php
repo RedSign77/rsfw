@@ -12,9 +12,9 @@ abstract class Observable implements IObservable
 		$this->observers[] = $observer;
 	}
 
-	public function notifyObservers() {
+	public function notifyObservers($action) {
 		foreach ($this->observers as $observer) {
-			$observer->update($this);
+			$observer->update($this, $action);
 		}
 	}
 }

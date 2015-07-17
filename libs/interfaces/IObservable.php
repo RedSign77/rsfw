@@ -8,6 +8,6 @@ interface IObservable
 
 	public function attach(IObserver $observer);
 
-	public function notifyObservers();
+	public function notifyObservers($action);
 
 }

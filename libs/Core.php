@@ -315,7 +315,8 @@ class Core extends Singleton
 	public static function log($message) {
 		$dt = self::formatDate(0, 3);
 		$message = $dt->format(DateTime::ATOM)." ".$message.PHP_EOL;
-		return file_put_contents(self::logFile(), (String) $message, FILE_APPEND);
+		$ret = file_put_contents(self::logFile(), (String) $message, FILE_APPEND);
+		return $ret;
 	}
 
 	/**
