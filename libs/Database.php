@@ -7,7 +7,7 @@ class Database extends Singleton
 {
 
     private $host = "localhost";
-    private $database = "rsfw";
+    private $database = "redsignh_3snakes";
     private $user = "root";
     private $password = "";
     private $connection = null;
