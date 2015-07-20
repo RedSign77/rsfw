@@ -10,6 +10,7 @@ class RS_User extends Singleton
 	private $data = null;
 
 	public function __construct() {
+		parent::__construct();
 		if (isset($_SESSION[self::$session])) {
 			$this->data = $_SESSION[self::$session];
 		} else {

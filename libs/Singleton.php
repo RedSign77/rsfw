@@ -8,7 +8,7 @@ abstract class Singleton extends Observable {
 
     protected function __construct()
     {
-        throw new Exception('Singleton class: getInstance()');
+        parent::__construct();
     }
 
     public static function getInstance()
