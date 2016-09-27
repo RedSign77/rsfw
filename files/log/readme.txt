@@ -1,1 +1,1 @@
-Log directory
+This is a Log directory for log files. Please don't delete or rename it!
